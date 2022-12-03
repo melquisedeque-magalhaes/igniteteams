@@ -6,6 +6,12 @@ export const Container = styled.View`
   padding: 24px;
 `
 
+export const ContainerInput = styled.View`
+  width: 100%;
+  margin-top: 32px;
+  margin-bottom: 20px;
+`
+
 export const Content = styled.View`
   margin-top: 32px;
 `
