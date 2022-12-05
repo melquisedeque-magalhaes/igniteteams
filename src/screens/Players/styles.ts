@@ -6,14 +6,31 @@ export const Container = styled.View`
   padding: 24px;
 `
 
-export const ContainerInput = styled.View`
+export const Form = styled.View`
   width: 100%;
   margin-top: 32px;
   margin-bottom: 20px;
+
+  flex-direction: row;
+  justify-content: space-between;
+
+  border-radius: 6px;
+
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700 };
 `
 
 export const Content = styled.View`
   margin-top: 32px;
+`
+
+export const HeaderTeams = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const CounterTitle = styled.Text`
+  
 `
 
 export const Footer = styled.View`

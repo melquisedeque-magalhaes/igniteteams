@@ -1,11 +1,7 @@
 import styled from "styled-components/native";
 
-interface ContainerProps {
-  backgroundColor: string
-}
-
-export const Container = styled.TouchableOpacity<ContainerProps>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
+export const Container = styled.TouchableOpacity`
+  background-color: transparent;
   height: 56px;
   width: 56px;
   border-radius: 6px;

@@ -23,7 +23,7 @@ export default function App() {
         backgroundColor='transparent' 
         translucent 
       />
-     {isLoadedFonts ? <NewGroup /> : <Loading /> } 
+     {isLoadedFonts ? <Players /> : <Loading /> } 
     </ThemeProvider>
   );
 }

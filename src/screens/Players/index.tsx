@@ -1,15 +1,21 @@
 import { Button } from "@components/Button";
+import { ButtonIcon } from "@components/ButtonIcon";
+import { ButtonSelectTeam } from "@components/ButtonSelectTeam";
+import { CardPlayer } from "@components/CardPlayer";
 
 import { Header } from "@components/Header";
 import { Input } from "@components/Input";
 import { SubTitle } from "@components/SubTitle";
 import { Title } from "@components/Title";
-import { Plus } from "phosphor-react-native";
+import { useState } from "react";
+import { FlatList } from "react-native";
 
 import { useTheme } from "styled-components/native";
-import { Container, ContainerInput, Content, Footer } from "./styles";
+import { Container, Content, Footer, Form, HeaderTeams } from "./styles";
 
 export function Players() {
+  const [teamSelected, setTeamSelected] = useState('Time A')
+  const [players, setPlayers] = useState(['Melqui'])
 
   const { COLORS } = useTheme()
 
@@ -23,17 +29,34 @@ export function Players() {
           adicione a galera e separe os times
         </SubTitle>
 
-        <ContainerInput>
+        <Form>
           <Input 
             placeholder="Nome do participante"
-            iconColor={COLORS.GRAY_700}
-            icon={
-              <Plus color={COLORS.GREEN_500} 
-                size={24} 
-              />
-            }  
+            autoCorrect={false} 
           />
-        </ContainerInput>
+          <ButtonIcon 
+            color={COLORS.GREEN_500} 
+            icon="Plus"
+          />
+        </Form>
+
+        <HeaderTeams>
+          <FlatList 
+            data={['Time A', 'Time B']}
+            keyExtractor={item => item}
+            renderItem={({ item }) => <ButtonSelectTeam isSelected={teamSelected === item}  onPress={() => setTeamSelected(item)} title={item} />}
+            horizontal
+          />
+          
+          <SubTitle>{players.length}</SubTitle>
+        </HeaderTeams>
+
+        <FlatList 
+          data={players}
+          keyExtractor={item => item}
+          renderItem={({ item }) => <CardPlayer />}
+          showsVerticalScrollIndicator={false}
+        />
           
       </Content>
 
