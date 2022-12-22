@@ -1,21 +1,21 @@
+import { useState } from "react";
+import { FlatList } from "react-native";
+import { useTheme } from "styled-components/native";
+
+import { Title } from "@components/Title";
 import { Button } from "@components/Button";
 import { ButtonIcon } from "@components/ButtonIcon";
 import { ButtonSelectTeam } from "@components/ButtonSelectTeam";
 import { CardPlayer } from "@components/CardPlayer";
-
 import { Header } from "@components/Header";
 import { Input } from "@components/Input";
 import { SubTitle } from "@components/SubTitle";
-import { Title } from "@components/Title";
-import { useState } from "react";
-import { FlatList } from "react-native";
 
-import { useTheme } from "styled-components/native";
 import { Container, Content, Footer, Form, HeaderTeams } from "./styles";
 
 export function Players() {
   const [teamSelected, setTeamSelected] = useState('Time A')
-  const [players, setPlayers] = useState(['Melqui'])
+  const [players, setPlayers] = useState([])
 
   const { COLORS } = useTheme()
 
@@ -54,8 +54,15 @@ export function Players() {
         <FlatList 
           data={players}
           keyExtractor={item => item}
-          renderItem={({ item }) => <CardPlayer />}
+          renderItem={({ item }) => <CardPlayer onRemove={() => {}} name={item} />}
           showsVerticalScrollIndicator={false}
+          style={{
+            marginTop: 16
+          }}
+          ListEmptyComponent={() => 
+            <SubTitle>Não ha pessoas nesse time!</SubTitle>
+          }
+          contentContainerStyle={{ paddingBottom: 100  }}
         />
           
       </Content>

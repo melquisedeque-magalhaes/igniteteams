@@ -1,19 +1,20 @@
+import { FlatList } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import { Button } from "@components/Button";
 import { GroupCard } from "@components/GroupCard";
 import { Header } from "@components/Header";
 import { Highlight } from "@components/Highlight";
 import { SubTitle } from "@components/SubTitle";
-import { useState } from "react";
-import { FlatList } from "react-native";
-import * as S from "./styles";
+import { useGroups } from "@hooks/useGroups";
 
-interface Group {
-  name: string
-}
+import * as S from "./styles";
+import { useState } from "react";
 
 export function Groups() {
+  const [groups, setGroups] = useState([{ name: 'Rocket' }])
 
-  const [groups, setGroups] = useState<Group []>([{ name: 'Galerinha da Rocketseat' }])
+  const { navigate } = useNavigation()
 
   return (
     <S.Container>
@@ -34,7 +35,7 @@ export function Groups() {
       </S.Content>
 
       <S.Footer>
-        <Button title="Criar nova turma" />
+        <Button onPress={() => navigate('NewGroup')} title="Criar nova turma" />
       </S.Footer>
     </S.Container>
   )

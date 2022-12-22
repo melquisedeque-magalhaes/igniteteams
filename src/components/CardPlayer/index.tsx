@@ -1,14 +1,21 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { ButtonIcon } from "@components/ButtonIcon";
 import { useTheme } from "styled-components/native";
-import { Container } from "./styles";
+import { Container, Icon, Title } from "./styles";
 
-export function CardPlayer() {
+interface CardPlayerProps {
+  name: string
+  onRemove: () => void
+}
+
+export function CardPlayer({ name, onRemove }: CardPlayerProps) {
 
   const { COLORS } = useTheme()
 
   return (
     <Container>
-      <MaterialIcons name='verified-user' weight="fill" color={COLORS.GRAY_200} />
+      <Icon name="person" />
+      <Title>{name}</Title>
+      <ButtonIcon icon="X" color={COLORS.RED_500} onPress={onRemove} />
     </Container>
   )
 }
