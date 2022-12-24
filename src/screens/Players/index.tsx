@@ -12,6 +12,11 @@ import { Input } from "@components/Input";
 import { SubTitle } from "@components/SubTitle";
 
 import { Container, Content, Footer, Form, HeaderTeams } from "./styles";
+import { useRoute } from "@react-navigation/native";
+
+type RouteParams = {
+  group: string
+}
 
 export function Players() {
   const [teamSelected, setTeamSelected] = useState('Time A')
@@ -19,12 +24,16 @@ export function Players() {
 
   const { COLORS } = useTheme()
 
+  const route = useRoute()
+
+  const { group } = route.params as RouteParams
+
   return (
     <Container>
       <Header isShowBackButton />
 
       <Content>
-        <Title>Nova Turma</Title>
+        <Title>{group}</Title>
         <SubTitle>
           adicione a galera e separe os times
         </SubTitle>

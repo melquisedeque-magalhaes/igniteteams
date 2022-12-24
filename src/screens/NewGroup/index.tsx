@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { useGroups } from "@hooks/useGroups";
 
@@ -8,9 +9,9 @@ import { Header } from "@components/Header";
 import { Input } from "@components/Input";
 import { SubTitle } from "@components/SubTitle";
 import { Title } from "@components/Title";
+import { AppError } from "@utils/App.Error";
 
 import { Container, ContainerInput, Content, Icon } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
 export function NewGroup() {
 
@@ -20,15 +21,21 @@ export function NewGroup() {
 
   const { navigate } = useNavigation()
 
-  function handleAddGroup() {
-    if(!groupName.trim())
-      return Alert.alert('Erro campo obrigatório!', 'digite o nome do grupo')
-    
+  async function handleAddGroup() {
+    try {
+      if(!groupName.trim())
+        return Alert.alert('Erro campo obrigatório!', 'digite o nome do grupo')
 
-      addGroup(groupName)
-      Alert.alert('Grupo adicionado com sucesso!')
+      await addGroup(groupName)
 
       navigate('Players', { group: groupName })
+    }catch(error) {
+      if(error instanceof AppError)
+        return Alert.alert('Novo Grupo', error.message)
+
+      Alert.alert('Novo Grupo', 'error em carregar grupos')
+    }
+ 
   }
 
   return (
