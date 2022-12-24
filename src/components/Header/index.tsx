@@ -1,7 +1,8 @@
+import { useNavigation } from "@react-navigation/native"
+
 import { ArrowLeftButton, ArrowLeftIcon, Container, Logo } from "./styles"
 
 import LogoImg from '@assets/logo.png'
-import { useNavigation } from "@react-navigation/native"
 
 
 interface ButtonProps {
@@ -9,13 +10,17 @@ interface ButtonProps {
 }
 
 export function Header({ isShowBackButton = false }: ButtonProps) {
-  const { goBack } = useNavigation()
+  const { navigate } = useNavigation()
+
+  function handleGoBack() {
+    navigate('Groups')
+  }
 
   return (
     <Container>
       {
         isShowBackButton && (
-          <ArrowLeftButton onPress={goBack}>
+          <ArrowLeftButton onPress={handleGoBack}>
             <ArrowLeftIcon />
           </ArrowLeftButton>
         )

@@ -28,7 +28,7 @@ export function NewGroup() {
       addGroup(groupName)
       Alert.alert('Grupo adicionado com sucesso!')
 
-      navigate('Groups')
+      navigate('Players', { group: groupName })
   }
 
   return (

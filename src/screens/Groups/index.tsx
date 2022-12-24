@@ -12,7 +12,7 @@ import * as S from "./styles";
 import { useState } from "react";
 
 export function Groups() {
-  const [groups, setGroups] = useState([{ name: 'Rocket' }])
+  const [groups, setGroups] = useState([])
 
   const { navigate } = useNavigation()
 
@@ -26,7 +26,7 @@ export function Groups() {
         <FlatList
           data={groups} 
           keyExtractor={({ name }) => name}
-          renderItem={({ item }) => <GroupCard title={item.name} />}
+          renderItem={({ item }) => <GroupCard title={item} />}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => 
             <SubTitle>Você ainda não tem nenhuma turma.{'\n'}crie uma agora mesmo!</SubTitle>
