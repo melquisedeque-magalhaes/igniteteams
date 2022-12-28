@@ -20,6 +20,7 @@ import { AppError } from "@utils/App.Error";
 import { Player } from "@typings/Player";
 
 import { Container, Content, Footer, Form, HeaderTeams } from "./styles";
+import { Loading } from "@components/Loading";
 
 type RouteParams = {
   group: string
@@ -28,6 +29,8 @@ type RouteParams = {
 export function Players() {
   const [teamSelected, setTeamSelected] = useState('Time A')
   const [players, setPlayers] = useState<Player []>([])
+  
+  const [isLoading, setIsLoading] = useState(true)
 
   const [newPlayerName, setNewPlayerName] = useState('')
 
@@ -74,11 +77,15 @@ export function Players() {
 
   async function getPlayerByTeam() {
     try {
+      setIsLoading(true)
+
       const playersByTeam = await getPlayerByGroupAndTeam({ group, team: teamSelected })
 
       setPlayers(playersByTeam)
     }catch(err) {
       Alert.alert('Novo Jogador', 'Não foi possível carregar jogadores')
+    } finally{
+      setIsLoading(false)
     }
   }
 
@@ -172,25 +179,31 @@ export function Players() {
           <SubTitle>{players.length}</SubTitle>
         </HeaderTeams>
 
-        <FlatList 
-          data={players}
-          keyExtractor={item => item.name}
-          renderItem={
-            ({ item }) => 
-              <CardPlayer 
-                onRemove={() => handleRemovePlayer(item.name)} 
-                name={item.name} 
-              />
-          }
-          showsVerticalScrollIndicator={false}
-          style={{
-            marginTop: 16
-          }}
-          ListEmptyComponent={() => 
-            <SubTitle>Não ha pessoas nesse time!</SubTitle>
-          }
-          contentContainerStyle={{ paddingBottom: 100  }}
-        />
+        {
+          isLoading ? <Loading /> : (
+            <FlatList 
+              data={players}
+              keyExtractor={item => item.name}
+              renderItem={
+                ({ item }) => 
+                  <CardPlayer 
+                    onRemove={() => handleRemovePlayer(item.name)} 
+                    name={item.name} 
+                  />
+              }
+              showsVerticalScrollIndicator={false}
+              style={{
+                marginTop: 16
+              }}
+              ListEmptyComponent={() => 
+                <SubTitle>Não ha pessoas nesse time!</SubTitle>
+              }
+              contentContainerStyle={{ paddingBottom: 100  }}
+            />
+          )
+        }
+
+        
           
       </Content>
 

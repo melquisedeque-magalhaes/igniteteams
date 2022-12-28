@@ -11,9 +11,11 @@ import { useGroups } from "@hooks/useGroups";
 import { AppError } from '@utils/App.Error'
 
 import * as S from "./styles";
+import { Loading } from "@components/Loading";
 
 export function Groups() {
   const [groups, setGroups] = useState<string[]>()
+  const [isLoading, setIsLoading] = useState(true)
 
   const { navigate } = useNavigation()
 
@@ -29,6 +31,8 @@ export function Groups() {
         return Alert.alert('Grupo', error.message)
 
       Alert.alert('Grupo', 'error em carregar grupos')
+    } finally{
+      setIsLoading(false)
     }
   }, [])
 
@@ -47,15 +51,20 @@ export function Groups() {
       <Highlight title="Turmas" subTitle="jogue com a sua turma" />
 
       <S.Content>
-        <FlatList
-          data={groups} 
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => <GroupCard title={item} onPress={() => handleOpenGroup(item)} />}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={() => 
-            <SubTitle>Você ainda não tem nenhuma turma.{'\n'}crie uma agora mesmo!</SubTitle>
-          }
-        />
+        {
+          isLoading ? <Loading /> 
+          : (
+            <FlatList
+              data={groups} 
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => <GroupCard title={item} onPress={() => handleOpenGroup(item)} />}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={() => 
+                <SubTitle>Você ainda não tem nenhuma turma.{'\n'}crie uma agora mesmo!</SubTitle>
+              }
+            />
+          )
+        }
       </S.Content>
 
       <S.Footer>
