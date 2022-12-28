@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width="200px" src="./.github/assets/logo.svg" alt="Ignite Teams Logo" />
+  <img width="200px" src="./.github/assets/Logo.svg" alt="Ignite Teams Logo" />
   <br />
 </h1>
 
