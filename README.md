@@ -1,10 +1,10 @@
 <h1 align="center">
-  <img width="200px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png" alt="Uber Logo" />
+  <img width="200px" src="./.github/assets/logo.png" alt="Ignite Teams Logo" />
   <br />
 </h1>
 
 <h3 align="center">
-   Uber Clone criado com React Native</a>.
+  Ignite Teams criado com React Native</a>.
 </h3>
 
 
@@ -14,7 +14,7 @@
   <a href="#Suporte">Suporte</a> •
 </p>
 <div align="center">
-  <img src="https://github.com/melquisedeque-magalhaes/uber-clone/blob/73e9edd10003955173a94098ab6dd1a1683782b3/github/images/uber-img.png" alt="Release" />
+  <img src="./.github/assets/figma.png" alt="Release" />
 </div>
 
 ---
