@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Alert, FlatList, TextInput } from "react-native";
 import { useTheme } from "styled-components/native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { Title } from "@components/Title";
 import { Button } from "@components/Button";
@@ -13,6 +13,7 @@ import { Input } from "@components/Input";
 import { SubTitle } from "@components/SubTitle";
 
 import { usePlayer } from "@hooks/usePlayer";
+import { useGroups } from "@hooks/useGroups";
 
 import { AppError } from "@utils/App.Error";
 
@@ -30,7 +31,11 @@ export function Players() {
 
   const [newPlayerName, setNewPlayerName] = useState('')
 
-  const { addNewPlayer, getPlayerByGroupAndTeam } = usePlayer()
+  const { addNewPlayer, getPlayerByGroupAndTeam, removePlayerByGroup } = usePlayer()
+
+  const { deleteGroup } = useGroups()
+
+  const { navigate } = useNavigation()
 
   const { COLORS } = useTheme()
 
@@ -75,6 +80,53 @@ export function Players() {
     }catch(err) {
       Alert.alert('Novo Jogador', 'Não foi possível carregar jogadores')
     }
+  }
+
+  async function removePlayer(playerName: string) {
+    try {
+      await removePlayerByGroup({ group, playerName })
+
+      getPlayerByTeam()
+    }catch(err) {
+      Alert.alert('Novo Jogador', 'Não foi possível remover o jogador!')
+    }
+  }
+
+  async function handleRemovePlayer(name: string) {
+    Alert.alert('Novo Jogador',`Tem certeza que deseja remover o jogador ${name}`, [
+      {
+        text: 'Cancelar',
+        style: 'cancel'
+      },
+      {
+        text: 'Excluir',
+        onPress: async () => await removePlayer(name)
+      }
+    ])
+  }
+
+  async function removeGroup() {
+    try {
+      await deleteGroup(group)
+
+      navigate('Groups')
+
+    }catch(err) {
+      Alert.alert('Novo Jogador', 'Não foi possível remover o Grupo!')
+    }
+  }
+
+  async function handleRemoveGroup() {
+    Alert.alert('Novo Jogador',`Tem certeza que deseja deletar o grupo ${group}`, [
+      {
+        text: 'Cancelar',
+        style: 'cancel'
+      },
+      {
+        text: 'Excluir',
+        onPress: async () => await removeGroup()
+      }
+    ])
   }
 
   useEffect(() => {
@@ -123,7 +175,13 @@ export function Players() {
         <FlatList 
           data={players}
           keyExtractor={item => item.name}
-          renderItem={({ item }) => <CardPlayer onRemove={() => {}} name={item.name} />}
+          renderItem={
+            ({ item }) => 
+              <CardPlayer 
+                onRemove={() => handleRemovePlayer(item.name)} 
+                name={item.name} 
+              />
+          }
           showsVerticalScrollIndicator={false}
           style={{
             marginTop: 16
@@ -137,7 +195,7 @@ export function Players() {
       </Content>
 
       <Footer>
-        <Button title="Remover turma" variant="error" />
+        <Button onPress={handleRemoveGroup} title="Remover turma" variant="error" />
       </Footer>
     </Container>
   )

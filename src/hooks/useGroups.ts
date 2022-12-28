@@ -1,5 +1,7 @@
 import { groupCreate } from "@storage/group/groupCreate"
 import { groupsGetAll } from "@storage/group/groupsGetAll"
+import { groupUpdate } from "@storage/group/groupUpdate"
+import { playerDeleteAll } from "@storage/player/playerDeleteAll"
 import { AppError } from "@utils/App.Error"
 
 export function useGroups() {
@@ -30,5 +32,18 @@ export function useGroups() {
     }
   }
 
-  return { addGroup, getAllGroups }
+  async function deleteGroup(groupDeleted: string) {
+    try {
+      const groups = await groupsGetAll()
+
+      const filterGroups = groups.filter(group => group !== groupDeleted)
+
+      await groupUpdate(filterGroups)
+      await playerDeleteAll(groupDeleted)
+    }catch (error) {
+      throw error
+    }
+  }
+
+  return { addGroup, getAllGroups, deleteGroup }
 }

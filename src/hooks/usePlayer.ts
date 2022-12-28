@@ -1,5 +1,6 @@
 import { playerCreate } from "@storage/player/playerCreate";
 import { playerGetByGroup } from "@storage/player/playerGetByGroup";
+import { playerUpdate } from "@storage/player/playerUpdate";
 import { Player } from "@typings/Player";
 
 interface addNewPlayerProps {
@@ -10,6 +11,11 @@ interface addNewPlayerProps {
 interface getPlayerByGroupAndTeamProps {
   group: string
   team: string
+}
+
+interface removePlayerByGroupProps {
+  playerName: string
+  group: string
 }
 
 export function usePlayer() {
@@ -43,9 +49,22 @@ export function usePlayer() {
     }
   }
 
+  async function removePlayerByGroup({ group, playerName }: removePlayerByGroupProps) {
+    try {
+      const players = await playerGetByGroup(group)
+
+      const playerFilterByName = players.filter(player => player.name !== playerName)
+
+      await playerUpdate({ group, players: playerFilterByName })
+    }catch(error) {
+      throw error
+    }
+  }
+
   return {
     addNewPlayer,
     getPlayerByGroup,
-    getPlayerByGroupAndTeam
+    getPlayerByGroupAndTeam,
+    removePlayerByGroup
   }
 }
